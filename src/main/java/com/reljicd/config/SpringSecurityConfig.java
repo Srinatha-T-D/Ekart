@@ -26,6 +26,8 @@ public class SpringSecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
 
     final DataSource dataSource;
+    
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${spring.admin.username}")
     private String adminUsername;
@@ -39,9 +41,10 @@ public class SpringSecurityConfig {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
-    public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
+    public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler, DataSource dataSource, PasswordEncoder passwordEncoder) {
         this.accessDeniedHandler = accessDeniedHandler;
         this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -87,11 +90,11 @@ public class SpringSecurityConfig {
                 .usersByUsernameQuery(usersQuery)
                 .authoritiesByUsernameQuery(rolesQuery)
                 .dataSource(dataSource)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
 
         // In memory authentication
         auth.inMemoryAuthentication()
-                .withUser(adminUsername).password(passwordEncoder().encode(adminPassword)).roles("ADMIN");
+                .withUser(adminUsername).password(passwordEncoder.encode(adminPassword)).roles("ADMIN");
     }
 
     /**
