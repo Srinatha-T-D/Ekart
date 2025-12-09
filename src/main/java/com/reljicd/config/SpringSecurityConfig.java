@@ -30,7 +30,7 @@ public class SpringSecurityConfig {
     @Value("${spring.admin.username}")
     private String adminUsername;
 
-    @Value("${spring.admin.username}")
+    @Value("${spring.admin.password}")
     private String adminPassword;
 
     @Value("${spring.queries.users-query}")
@@ -91,7 +91,7 @@ public class SpringSecurityConfig {
 
         // In memory authentication
         auth.inMemoryAuthentication()
-                .withUser(adminUsername).password(adminPassword).roles("ADMIN");
+                .withUser(adminUsername).password(passwordEncoder().encode(adminPassword)).roles("ADMIN");
     }
 
     /**
