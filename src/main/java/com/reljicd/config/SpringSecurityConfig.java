@@ -101,7 +101,7 @@ public class SpringSecurityConfig {
      * Configure and return BCrypt password encoder
      */
     @Bean
-    PasswordEncoder passwordEncoder() {
+    static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
