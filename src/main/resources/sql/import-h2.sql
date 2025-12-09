@@ -1,3 +1,35 @@
+-- Create tables
+CREATE TABLE IF NOT EXISTS "USER" (
+    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    last_name VARCHAR(255),
+    active INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS "ROLE" (
+    role_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    role VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS "USER_ROLE" (
+    user_id BIGINT NOT NULL,
+    role_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES "USER"(user_id),
+    FOREIGN KEY (role_id) REFERENCES "ROLE"(role_id)
+);
+
+CREATE TABLE IF NOT EXISTS "PRODUCT" (
+    product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    description VARCHAR(255),
+    quantity INT NOT NULL,
+    price DECIMAL(19, 2) NOT NULL
+);
+
 -- password in plaintext: "password"
 INSERT INTO "USER" (user_id, password, email, username, name, last_name, active)
 VALUES
