@@ -2,11 +2,10 @@ package com.reljicd.controller;
 
 import com.reljicd.model.User;
 import com.reljicd.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -16,12 +15,11 @@ public class RegistrationController {
 
     private final UserService userService;
 
-    @Autowired
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @GetMapping("/registration")
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         User user = new User();
@@ -30,7 +28,7 @@ public class RegistrationController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @PostMapping("/registration")
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
 
         if (userService.findByEmail(user.getEmail()).isPresent()) {

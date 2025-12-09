@@ -3,7 +3,6 @@ package com.reljicd.controller;
 import com.reljicd.exception.NotEnoughProductsInStockException;
 import com.reljicd.service.ProductService;
 import com.reljicd.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,6 @@ public class ShoppingCartController {
 
     private final ProductService productService;
 
-    @Autowired
     public ShoppingCartController(ShoppingCartService shoppingCartService, ProductService productService) {
         this.shoppingCartService = shoppingCartService;
         this.productService = productService;
@@ -31,13 +29,13 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/shoppingCart/addProduct/{productId}")
-    public ModelAndView addProductToCart(@PathVariable("productId") Long productId) {
+    public ModelAndView addProductToCart(@PathVariable Long productId) {
         productService.findById(productId).ifPresent(shoppingCartService::addProduct);
         return shoppingCart();
     }
 
     @GetMapping("/shoppingCart/removeProduct/{productId}")
-    public ModelAndView removeProductFromCart(@PathVariable("productId") Long productId) {
+    public ModelAndView removeProductFromCart(@PathVariable Long productId) {
         productService.findById(productId).ifPresent(shoppingCartService::removeProduct);
         return shoppingCart();
     }

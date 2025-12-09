@@ -4,7 +4,6 @@ import com.reljicd.model.User;
 import com.reljicd.repository.RoleRepository;
 import com.reljicd.repository.UserRepository;
 import com.reljicd.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,6 @@ public class UserServiceImp implements UserService {
 
     private static final String USER_ROLE = "ROLE_USER";
 
-    @Autowired
     public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;

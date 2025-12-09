@@ -4,7 +4,6 @@ import com.reljicd.exception.NotEnoughProductsInStockException;
 import com.reljicd.model.Product;
 import com.reljicd.repository.ProductRepository;
 import com.reljicd.service.ShoppingCartService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     private Map<Product, Integer> products = new HashMap<>();
 
-    @Autowired
     public ShoppingCartServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }

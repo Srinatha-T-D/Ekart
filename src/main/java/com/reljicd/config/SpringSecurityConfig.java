@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.sql.DataSource;
@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  * @author Dusan
  */
 @Configuration
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig {
 
     private final AccessDeniedHandler accessDeniedHandler;
 
@@ -39,7 +39,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${spring.queries.roles-query}")
     private String rolesQuery;
 
-    @Autowired
     public SpringSecurityConfig(AccessDeniedHandler accessDeniedHandler, DataSource dataSource) {
         this.accessDeniedHandler = accessDeniedHandler;
         this.dataSource = dataSource;
@@ -53,8 +52,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      * - every other page needs authentication
      * - custom 403 access denied handler
      */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
                 .authorizeRequests()
@@ -72,6 +71,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler)
                 // Fix for H2 console
                 .and().headers().frameOptions().disable();
+        return http.build();
     }
 
 
@@ -98,7 +98,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
      * Configure and return BCrypt password encoder
      */
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 

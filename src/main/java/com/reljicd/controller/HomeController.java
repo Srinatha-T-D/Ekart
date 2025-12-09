@@ -3,7 +3,6 @@ package com.reljicd.controller;
 import com.reljicd.model.Product;
 import com.reljicd.service.ProductService;
 import com.reljicd.util.Pager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -20,13 +19,12 @@ public class HomeController {
 
     private final ProductService productService;
 
-    @Autowired
     public HomeController(ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/home")
-    public ModelAndView home(@RequestParam("page") Optional<Integer> page) {
+    public ModelAndView home(@RequestParam Optional<Integer> page) {
 
         // Evaluate page. If requested parameter is null or less than 0 (to
         // prevent exception), return initial size. Otherwise, return value of
